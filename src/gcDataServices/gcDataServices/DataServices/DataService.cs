@@ -49,17 +49,15 @@ namespace GeniusCode.Components.DataServices
         #endregion
     }
 
-   public class DataService<T, TSession> : DataService<T, TSession, IDataScope> where T : class where TSession : class 
+    public class DataService<T, TSession> : DataService<T, TSession, IDataScope> where T : class where TSession : class 
     {
        public DataService()
        {
-           DataScope = new DataScopeImpl();
-       }
-
-       
+           DataScope = new DataScope();
+       }      
     }
 
-    public class DataScopeImpl : IDataScope
+    public class DataScope : IDataScope
    {
        public ICommandService CommandService { get; set; }
        public IQueryService QueryService { get; set; }

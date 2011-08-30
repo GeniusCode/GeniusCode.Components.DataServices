@@ -52,7 +52,7 @@ namespace gcDataServices.Tests
 
             var service = new DataService<Person>();
             var asDependant = service as IDependant<Tuple<dynamic, IDataScope>>;
-            asDependant.TrySetDependency(new Tuple<dynamic, IDataScope>(new ExpandoObject(), new DataScopeImpl
+            asDependant.TrySetDependency(new Tuple<dynamic, IDataScope>(new ExpandoObject(), new DataScope
                                                                                  {
                                                                                      QueryService = new ListQueryService(() => _dataStore),
                                                                                      CommandService = new ListCommandService(c => _dataStore = c, () => _dataStore)
