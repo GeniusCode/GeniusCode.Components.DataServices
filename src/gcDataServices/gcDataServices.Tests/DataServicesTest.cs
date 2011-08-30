@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using GeniusCode.Components.DataServices;
+using GeniusCode.Components.Factories.DepedencyInjection;
 using NUnit.Framework;
 
 namespace gcDataServices.Tests
@@ -48,14 +50,13 @@ namespace gcDataServices.Tests
         private IDataService<Person> GetService()
         {
 
-            var service = new DataService<Person>
-                              {
-                                  DataScope =
-                                      {
-                                          QueryService = new ListQueryService(() => _dataStore),
-                                          CommandService = new ListCommandService(c => _dataStore = c, () => _dataStore)
-                                      }
-                              };
+            var service = new DataService<Person>();
+            var asDependant = service as IDependant<Tuple<dynamic, IDataScope>>;
+            asDependant.TrySetDependency(new Tuple<dynamic, IDataScope>(new ExpandoObject(), new DataScopeImpl
+                                                                                 {
+                                                                                     QueryService = new ListQueryService(() => _dataStore),
+                                                                                     CommandService = new ListCommandService(c => _dataStore = c, () => _dataStore)
+                                                                                 }));
 
             return service;
         }

@@ -17,21 +17,19 @@ namespace GeniusCode.Components.DataServices
             return DataScope.QueryService.GetQueryFor<T>();
         }
 
-        public TSession Session { get; set; }
-        public TDataScope DataScope { get; set; }
+        public TSession Session { get; internal set; }
+        public TDataScope DataScope { get; internal set; }
         
         #endregion
 
         IDataScope IDataService.DataScope
         {
             get { return DataScope; }
-            set { DataScope = (TDataScope)value; }
         }
 
         object IDataService.Session
         {
             get { return Session; }
-            set { Session = (TSession) value; }
         }
 
         #region Implementation of IDependant<Tuple<TSession,TDataScope>>
@@ -58,12 +56,14 @@ namespace GeniusCode.Components.DataServices
            DataScope = new DataScopeImpl();
        }
 
-       internal class DataScopeImpl : IDataScope
-       {
-           public ICommandService CommandService { get; set; }
-           public IQueryService QueryService { get; set; }
-      }
+       
     }
+
+    public class DataScopeImpl : IDataScope
+   {
+       public ICommandService CommandService { get; set; }
+       public IQueryService QueryService { get; set; }
+   }
 
     public class DataService<T> : DataService<T, dynamic> where T: class
     {
