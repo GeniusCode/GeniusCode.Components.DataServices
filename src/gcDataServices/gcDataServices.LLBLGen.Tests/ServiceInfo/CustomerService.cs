@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using GeniusCode.Components.DataServices;
 using Northwind.DAL.EntityClasses;
 
-namespace gcDataServices.LLBLGen.Tests
+namespace gcDataServices.LLBLGen.Tests.ServiceInfo
 {
-    public class MySession
-    {}
-
-    public class MyDataService<T> : DataService<T,MySession> where T : class
-    {
-    }
 
     public class CustomerService : MyDataService<CustomerEntity>
     {
@@ -23,17 +14,17 @@ namespace gcDataServices.LLBLGen.Tests
      
         public OrderService GetOrderService()
         {
-            return GetPeerDataService<OrderService>();
+            return Factory.GetInstance<OrderService>(this);
         }
-    }
 
 
-    public class OrderService : MyDataService<OrderEntity>
-    {
-        public int GetOrderCount()
+        public void SetNameToBrodie(string custId)
         {
-            return GetQuery().Count();
+            var entity = GetQuery().Single(a => a.CustomerId == custId);
+            entity.CompanyName = "Brody";
+            Scope.DataScope.CommandService.SaveObject(entity);
         }
-    }
 
+
+    }
 }

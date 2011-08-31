@@ -20,6 +20,17 @@ namespace GeniusCode.Components.DataServices
             _adapter = adapter;
         }
 
+        public IDataAccessAdapter Adapter
+        {
+            get { return _adapter; }
+        }
+
+        public UnitOfWork2 UnitOfWork
+        {
+            get { return _uow; }
+        }
+
+
         public void ApplyPersistContainer(PersistContainer container)
         {
             container.ToDelete.OfType<IEntity2>().ToList().ForEach(a => _uow.AddForDelete(a));

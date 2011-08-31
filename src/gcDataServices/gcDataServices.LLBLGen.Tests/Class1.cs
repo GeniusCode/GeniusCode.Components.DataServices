@@ -1,59 +1,80 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
-using System.Text;
+using gcDataServices.LLBLGen.Tests.ServiceInfo;
 using GeniusCode.Components;
 using GeniusCode.Components.DataServices;
 using GeniusCode.Components.Factories.DepedencyInjection;
-using NUnit.Framework;
 using Northwind.DAL.DatabaseSpecific;
 using Northwind.DAL.Linq;
+using NUnit.Framework;
 using SD.LLBLGen.Pro.LinqSupportClasses;
 using SD.LLBLGen.Pro.ORMSupportClasses;
 
 namespace gcDataServices.LLBLGen.Tests
 {
     [TestFixture]
-    public class Class1 
+    public class Class1
     {
 
         [Test]
         public void Should_connect()
         {
+            IDataAccessAdapter adapter;
             var af = GetSimpleDIAbstractFactory();
-            var scope = GetSimpleScope();
+            var scope = GetSimpleScope(out adapter);
 
             var instance = af.GetInstance<CustomerService>(scope);
-            Assert.IsTrue(instance.GetCustomerCount() > 5,"Could not resolve Customer Service");
+            Assert.IsTrue(instance.GetCustomerCount() > 5, "Could not resolve Customer Service");
         }
 
         [Test]
         public void Should_connect_using_peer_chain()
         {
+            IDataAccessAdapter adapter;
             var af = GetSimpleDIAbstractFactory();
-            var scope = GetSimpleScope();
+            var scope = GetSimpleScope(out adapter);
 
             var instance = af.GetInstance<CustomerService>(scope);
             var instance2 = instance.GetOrderService();
             Assert.IsTrue(instance2.GetOrderCount() > 5, "Could not resolve Orders Service");
         }
 
-        private static DIAbstractFactory<Tuple<MySession, IDataScope>, IDataService<MySession, IDataScope>> GetSimpleDIAbstractFactory()
+
+        [Test]
+        public void Should_Update()
         {
-            var factories = new List<IFactory<IDataService<MySession, IDataScope>>>();
+            var af = GetSimpleDIAbstractFactory();
+            IDataAccessAdapter adapter;
+            var scope = GetSimpleScope(out adapter);
+
+            var service = af.GetInstance<CustomerService>(scope);
+
+            adapter.StartTransaction(IsolationLevel.Unspecified, "test");
+
+            service.SetNameToBrodie("CHOPS");
+            var count = service.GetQuery().Where(a => a.CompanyName == "Brody").Count();
+            adapter.Rollback();
+
+            Assert.AreEqual(1, count);
+
+        }
+
+        private static DIAbstractFactory<IScopeAggregate, IDataService<IScopeAggregate>> GetSimpleDIAbstractFactory()
+        {
+            var factories = new List<IFactory<IDataService<IScopeAggregate>>>();
             factories.AddNewDefaultConstructorFactory();
 
-            var af =
-                factories.ToDIAbstractFactory<IDataService<MySession, IDataScope>, Tuple<MySession, IDataScope>>();
+            var af = factories.ToDIAbstractFactory<IDataService<IScopeAggregate>, IScopeAggregate>();
             return af;
         }
 
-        private static Tuple<MySession, IDataScope> GetSimpleScope()
+        private static ScopeAggregate GetSimpleScope(out IDataAccessAdapter adapter)
         {
-            var adapter = new DataAccessAdapter();
+            adapter = new DataAccessAdapter();
             var metaData = new LinqMetaData(adapter);
-            var scope = new LLBLGenDataScope(adapter, metaData);
-            var dep = new Tuple<MySession, IDataScope>(new MySession(), scope);
+            var scope = new LLBLGenDataScope(adapter, (ILinqMetaData)metaData);
+            var dep = new ScopeAggregate { DataScope = scope, Session = new object() };
             return dep;
         }
     }

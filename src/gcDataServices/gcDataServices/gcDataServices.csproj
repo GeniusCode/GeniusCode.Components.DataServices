@@ -31,11 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="gcFactories, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\gcFactories.1.0.19\lib\net40\gcFactories.dll</HintPath>
+    <Reference Include="gcFactories">
+      <HintPath>..\packages\gcFactories.1.0.20\lib\net40\gcFactories.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="gcFactoriesMEF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\gcFactories.1.0.19\lib\net40\gcFactoriesMEF.dll</HintPath>
+    <Reference Include="gcFactoriesMEF">
+      <HintPath>..\packages\gcFactories.1.0.20\lib\net40\gcFactoriesMEF.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

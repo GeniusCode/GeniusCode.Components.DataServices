@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Dynamic;
 using System.Linq;
 using GeniusCode.Components.DataServices;
 using GeniusCode.Components.Factories.DepedencyInjection;
@@ -12,8 +10,6 @@ namespace gcDataServices.Tests
     [TestFixture]
     public class DataServicesTest
     {
-
-
         public class Person
         {
             public string Name { get; set; }
@@ -30,18 +26,14 @@ namespace gcDataServices.Tests
         public void Should_fetch_items_using_query_service()
         {
             var dataservice = GetService();
-
             BuildCache();
-
             var count = dataservice.GetQuery().Count();
-
-            Assert.AreEqual(5,count);
-
+            Assert.AreEqual(5, count);
         }
 
         private void BuildCache()
         {
-            _dataStore.Add(new Person { Name = "Joe"});
+            _dataStore.Add(new Person { Name = "Joe" });
             _dataStore.Add(new Person { Name = "Bob" });
             _dataStore.Add(new Person { Name = "Frank" });
             _dataStore.Add(new Person { Name = "Bill" });
@@ -49,49 +41,52 @@ namespace gcDataServices.Tests
         }
 
         public class MySession
-        {}
+        { }
 
-        private IDataService<Person> GetService()
+        private DataService<Person, IScopeAggregate> GetService()
         {
 
-            var service = new DataService<Person,MySession>();
-            var asDependant = service as IDependant<Tuple<MySession, IDataScope>>;
+            var service = new DataService<Person, IScopeAggregate>();
+            var asDependant = service as IDependant<IScopeAggregate>;
             Assert.IsNotNull(asDependant);
-            asDependant.TrySetDependency(new Tuple<MySession, IDataScope>(new MySession(), new DataScope
-                                                                                 {
-                                                                                     QueryService = new ListQueryService(() => _dataStore),
-                                                                                     CommandService = new ListCommandService(c => _dataStore = c, () => _dataStore)
-                                                                                 }));
+
+            asDependant.TrySetDependency(new ScopeAggregate
+            {
+                DataScope = new DataScope
+                {
+                    CommandService = new ListCommandService(l => _dataStore = l, () => _dataStore),
+                    QueryService = new ListQueryService(() => _dataStore)
+                },
+                Session = new object()
+            });
+
             return service;
         }
-
 
         [Test]
         public void Should_persist_items_using_command_service()
         {
             var dataservice = GetService();
-            var p = new Person {Name = "Ryan"};
-            dataservice.DataScope.CommandService.SaveObject(p);
-            Assert.AreEqual(1,_dataStore.Count);
+            var p = new Person { Name = "Ryan" };
+            ((IDataService)dataservice).ScopeAggregate.DataScope.CommandService.SaveObject(p);
+            Assert.AreEqual(1, _dataStore.Count);
         }
-
 
         [Test]
         public void Should_delete_items_using_command_service()
         {
             var dataservice = GetService();
             BuildCache();
-            
-            dataservice.DataScope.CommandService.DeleteObject(_dataStore.First());
+
+            ((IDataService)dataservice).ScopeAggregate.DataScope.CommandService.DeleteObject(_dataStore.First());
             Assert.AreEqual(4, _dataStore.Count);
         }
-
 
         internal class ListCommandService : ICommandService
         {
             #region Implementation of ICommandService
 
-            
+
             private readonly Action<List<Person>> _dsSetter;
             private readonly Func<List<Person>> _dsGetter;
 
@@ -100,7 +95,7 @@ namespace gcDataServices.Tests
             {
                 _dsSetter = dsSetter;
                 _dsGetter = dsGetter;
-            }         
+            }
 
             public void ApplyPersistContainer(PersistContainer container)
             {
@@ -128,12 +123,10 @@ namespace gcDataServices.Tests
 
             public IQueryable<T> GetQueryFor<T>() where T : class
             {
-                    return _cache().OfType<T>().AsQueryable();
+                return _cache().OfType<T>().AsQueryable();
             }
             #endregion
         }
-
-
     }
 
 

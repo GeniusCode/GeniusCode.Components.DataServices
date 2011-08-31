@@ -1,26 +1,27 @@
-using System;
-using System.Linq;
 using GeniusCode.Components.Factories.DepedencyInjection;
 
 namespace GeniusCode.Components.DataServices
 {
-    public interface IDataService
+    public interface IScopeAggregate
     {
         IDataScope DataScope { get; }
         object Session { get; }
     }
 
-    public interface IDataService<TSession, TDataScope> : IPeerChainDependant<IDataService<TSession,TDataScope>,  Tuple<TSession, TDataScope>>
+    public class ScopeAggregate : IScopeAggregate
     {
+        public IDataScope DataScope { get; set; }
+        public object Session { get; set; }
     }
 
-    public interface IDataService<out T> : IDataService
+
+    public interface IDataService
     {
-        IQueryable<T> GetQuery();
+        IScopeAggregate ScopeAggregate { get; }
     }
 
-    public interface IDataService<out T, TSession, TDataScope> : IDataService<T>, IDataService<TSession, TDataScope>
-        where T : class
+    public interface IDataService<TScopeAggrageate> : IDataService, IPeerChainDependant<IDataService<TScopeAggrageate>, TScopeAggrageate>
+        where TScopeAggrageate : class, IScopeAggregate
     {
     }
 
