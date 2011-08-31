@@ -9,7 +9,7 @@ namespace GeniusCode.Components.DataServices
 
         private readonly IDocumentSession _dbSession;
 
-        public RavenPersister(IDocumentSession dbSession)
+        public RavenQueryService(IDocumentSession dbSession)
         {
             _dbSession = dbSession;
         }

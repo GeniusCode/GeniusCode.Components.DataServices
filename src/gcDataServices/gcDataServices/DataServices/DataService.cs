@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using GeniusCode.Components.Factories.DepedencyInjection;
@@ -6,10 +7,20 @@ using GeniusCode.Components.Factories.DepedencyInjection;
 namespace GeniusCode.Components.DataServices
 {
     public class DataService<T, TSession, TDataScope> : IDataService<T>, IDependant<Tuple<TSession, TDataScope>>
-        where T: class
+        where T: class, IDependant<Tuple<TSession,TDataScope>>
         where TSession : class
         where TDataScope : IDataScope
     {
+
+        private DIAbstractFactory<Tuple<TSession, TDataScope>, T> _factory;
+
+        protected TDataService GetPeerDataService<TDataService>()
+            where TDataService :class, T, IDependant<Tuple<TSession,TDataScope>>
+        {
+            _factory.
+
+        }
+
         #region Implementation of IDataService
 
         public IQueryable<T> GetQuery()
@@ -72,5 +83,23 @@ namespace GeniusCode.Components.DataServices
     }
 
 
+    public class Extensions
+    {
+        public static DIAbstractFactory<Tuple<TSession,TDataScope>,T> GetDataServiceFactory<T,TSession,TDataScope>()
+            where T: class 
+            where TSession : class
+            where TDataScope : DataScope
+        {
+            
+        }
+    }
+
+    public class DataServiceFactory<T,TSession,TDataScope> : DIAbstractFactory<Tuple<TSession,TDataScope>,T>
+        where T: class
+    {
+        public DataServiceFactory(IEnumerable<IFactory<T>> providers) : base(providers)
+        {
+        }
+    }
 
 }
