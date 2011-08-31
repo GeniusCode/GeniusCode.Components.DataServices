@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="RavenCommandService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RavenDataScope.cs" />
     <Compile Include="RavenQueryService.cs" />
   </ItemGroup>
   <ItemGroup>

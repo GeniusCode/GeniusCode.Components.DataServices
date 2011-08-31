@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Dynamic;
 using System.Linq;
 using GeniusCode.Components.DataServices;
@@ -47,17 +48,20 @@ namespace gcDataServices.Tests
             _dataStore.Add(new Person { Name = "Thomas" });
         }
 
+        public class MySession
+        {}
+
         private IDataService<Person> GetService()
         {
 
-            var service = new DataService<Person>();
-            var asDependant = service as IDependant<Tuple<dynamic, IDataScope>>;
-            asDependant.TrySetDependency(new Tuple<dynamic, IDataScope>(new ExpandoObject(), new DataScope
+            var service = new DataService<Person,MySession>();
+            var asDependant = service as IDependant<Tuple<MySession, IDataScope>>;
+            Assert.IsNotNull(asDependant);
+            asDependant.TrySetDependency(new Tuple<MySession, IDataScope>(new MySession(), new DataScope
                                                                                  {
                                                                                      QueryService = new ListQueryService(() => _dataStore),
                                                                                      CommandService = new ListCommandService(c => _dataStore = c, () => _dataStore)
                                                                                  }));
-
             return service;
         }
 

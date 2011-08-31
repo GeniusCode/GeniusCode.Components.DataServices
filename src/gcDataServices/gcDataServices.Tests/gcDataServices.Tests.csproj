@@ -31,8 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="gcFactories">
-      <HintPath>..\packages\gcFactories.1.0.14\lib\net40\gcFactories.dll</HintPath>
+    <Reference Include="gcFactories, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\gcFactories.1.0.19\lib\net40\gcFactories.dll</HintPath>
+    </Reference>
+    <Reference Include="gcFactoriesMEF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\gcFactories.1.0.19\lib\net40\gcFactoriesMEF.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>

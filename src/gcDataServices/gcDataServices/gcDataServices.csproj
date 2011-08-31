@@ -32,10 +32,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="gcFactories, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\gcFactories.1.0.15\lib\net40\gcFactories.dll</HintPath>
+      <HintPath>..\packages\gcFactories.1.0.19\lib\net40\gcFactories.dll</HintPath>
     </Reference>
     <Reference Include="gcFactoriesMEF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\gcFactories.1.0.15\lib\net40\gcFactoriesMEF.dll</HintPath>
+      <HintPath>..\packages\gcFactories.1.0.19\lib\net40\gcFactoriesMEF.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataServices\DataScope.cs" />
     <Compile Include="DataServices\DataService.cs" />
     <Compile Include="DataServices\ICommandService.cs" />
     <Compile Include="DataServices\IDataScope.cs" />

@@ -6,19 +6,20 @@ using GeniusCode.Components.Factories.DepedencyInjection;
 
 namespace GeniusCode.Components.DataServices
 {
-    public class DataService<T, TSession, TDataScope> : IDataService<T>, IDependant<Tuple<TSession, TDataScope>>
-        where T: class, IDependant<Tuple<TSession,TDataScope>>
+
+ 
+    public class DataService<T, TSession, TDataScope> : IDataService<T,TSession,TDataScope>
+        where T: class
         where TSession : class
         where TDataScope : IDataScope
     {
 
-        private DIAbstractFactory<Tuple<TSession, TDataScope>, T> _factory;
-
-        protected TDataService GetPeerDataService<TDataService>()
-            where TDataService :class, T, IDependant<Tuple<TSession,TDataScope>>
+        protected TDataService GetPeerDataService<TDataService>(object args = null)
+            where TDataService :class, IDataService<TSession, TDataScope>
         {
-            _factory.
-
+            var asIpc = this as IPeerChainDependant<IDataService<TSession, TDataScope>, Tuple<TSession, TDataScope>>;
+            var output =  asIpc.Factory.GetInstance<TDataService>(this,args);
+            return output;
         }
 
         #region Implementation of IDataService
@@ -58,48 +59,19 @@ namespace GeniusCode.Components.DataServices
         }
 
         #endregion
+
+        IDIAbstractFactory<Tuple<TSession, TDataScope>, IDataService<TSession, TDataScope>> IPeerChainDependant<IDataService<TSession, TDataScope>, Tuple<TSession, TDataScope>>.Factory { get; set; }
     }
 
-    public class DataService<T, TSession> : DataService<T, TSession, IDataScope> where T : class where TSession : class 
-    {
-       public DataService()
-       {
-           DataScope = new DataScope();
-       }      
-    }
-
-    public class DataScope : IDataScope
-   {
-       public ICommandService CommandService { get; set; }
-       public IQueryService QueryService { get; set; }
-   }
-
-    public class DataService<T> : DataService<T, dynamic> where T: class
+    public class DataService<T, TSession> : DataService<T, TSession, IDataScope>
+        where T : class
+        where TSession : class
     {
         public DataService()
         {
-            Session = new ExpandoObject();
+            DataScope = new DataScope();
         }
     }
 
-
-    public class Extensions
-    {
-        public static DIAbstractFactory<Tuple<TSession,TDataScope>,T> GetDataServiceFactory<T,TSession,TDataScope>()
-            where T: class 
-            where TSession : class
-            where TDataScope : DataScope
-        {
-            
-        }
-    }
-
-    public class DataServiceFactory<T,TSession,TDataScope> : DIAbstractFactory<Tuple<TSession,TDataScope>,T>
-        where T: class
-    {
-        public DataServiceFactory(IEnumerable<IFactory<T>> providers) : base(providers)
-        {
-        }
-    }
 
 }
