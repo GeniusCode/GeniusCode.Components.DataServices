@@ -37,11 +37,13 @@
     <Reference Include="gcFactoriesMEF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\gcFactories.1.0.20\lib\net40\gcFactoriesMEF.dll</HintPath>
     </Reference>
-    <Reference Include="Northwind.DAL">
-      <HintPath>dependencies\Northwind.DAL.dll</HintPath>
+    <Reference Include="Northwind.DAL, Version=1.0.4260.16030, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\LLBLGen.Dependencies\Northwind.DAL.dll</HintPath>
     </Reference>
-    <Reference Include="Northwind.DALDBSpecific">
-      <HintPath>dependencies\Northwind.DALDBSpecific.dll</HintPath>
+    <Reference Include="Northwind.DALDBSpecific, Version=1.0.4260.16066, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\LLBLGen.Dependencies\Northwind.DALDBSpecific.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
@@ -54,15 +56,18 @@
     </Reference>
     <Reference Include="SD.LLBLGen.Pro.DQE.SqlServer.NET20, Version=3.1.0.0, Culture=neutral, PublicKeyToken=ca73b74ba4e3ff27, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>dependencies\SD.LLBLGen.Pro.DQE.SqlServer.NET20.dll</HintPath>
+      <HintPath>..\LLBLGen.Dependencies\SD.LLBLGen.Pro.DQE.SqlServer.NET20.dll</HintPath>
     </Reference>
     <Reference Include="SD.LLBLGen.Pro.LinqSupportClasses.NET35, Version=3.1.0.0, Culture=neutral, PublicKeyToken=ca73b74ba4e3ff27, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>dependencies\SD.LLBLGen.Pro.LinqSupportClasses.NET35.dll</HintPath>
+      <HintPath>..\LLBLGen.Dependencies\SD.LLBLGen.Pro.LinqSupportClasses.NET35.dll</HintPath>
     </Reference>
     <Reference Include="SD.LLBLGen.Pro.ORMSupportClasses.NET20, Version=3.1.0.0, Culture=neutral, PublicKeyToken=ca73b74ba4e3ff27, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>dependencies\SD.LLBLGen.Pro.ORMSupportClasses.NET20.dll</HintPath>
+      <HintPath>..\LLBLGen.Dependencies\SD.LLBLGen.Pro.ORMSupportClasses.NET20.dll</HintPath>
+    </Reference>
+    <Reference Include="SD.LLBLGen.Pro.TypeConverters">
+      <HintPath>..\LLBLGen.Dependencies\SD.LLBLGen.Pro.TypeConverters.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

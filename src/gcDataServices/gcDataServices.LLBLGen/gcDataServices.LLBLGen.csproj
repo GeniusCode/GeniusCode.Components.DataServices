@@ -33,11 +33,11 @@
   <ItemGroup>
     <Reference Include="SD.LLBLGen.Pro.LinqSupportClasses.NET35, Version=3.1.0.0, Culture=neutral, PublicKeyToken=ca73b74ba4e3ff27, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Solutions Design\LLBLGen Pro v3.1\Frameworks\LLBLGen Pro\RuntimeLibraries\Net3.5\SD.LLBLGen.Pro.LinqSupportClasses.NET35.dll</HintPath>
+      <HintPath>..\LLBLGen.Dependencies\SD.LLBLGen.Pro.LinqSupportClasses.NET35.dll</HintPath>
     </Reference>
     <Reference Include="SD.LLBLGen.Pro.ORMSupportClasses.NET20, Version=3.1.0.0, Culture=neutral, PublicKeyToken=ca73b74ba4e3ff27, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Solutions Design\LLBLGen Pro v3.1\Frameworks\LLBLGen Pro\RuntimeLibraries\Net2.0\SD.LLBLGen.Pro.ORMSupportClasses.NET20.dll</HintPath>
+      <HintPath>..\LLBLGen.Dependencies\SD.LLBLGen.Pro.ORMSupportClasses.NET20.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
