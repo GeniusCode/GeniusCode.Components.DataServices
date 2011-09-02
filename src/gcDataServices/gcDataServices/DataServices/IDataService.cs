@@ -4,7 +4,7 @@ namespace GeniusCode.Components.DataServices
 {
     public interface IScopeAggregate
     {
-        IDataScope DataScope { get; }
+        IDataScope DataScope { get; set; }
         object Session { get; }
     }
 

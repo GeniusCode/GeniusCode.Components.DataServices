@@ -32,10 +32,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="gcFactories, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\gcFactories.1.0.20\lib\net40\gcFactories.dll</HintPath>
+      <HintPath>..\packages\gcFactories.1.0.23\lib\net40\gcFactories.dll</HintPath>
     </Reference>
     <Reference Include="gcFactoriesMEF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\gcFactories.1.0.20\lib\net40\gcFactoriesMEF.dll</HintPath>
+      <HintPath>..\packages\gcFactories.1.0.23\lib\net40\gcFactoriesMEF.dll</HintPath>
     </Reference>
     <Reference Include="Northwind.DAL, Version=1.0.4260.16030, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="LLBLGenTransactionHarnessTests.cs" />
     <Compile Include="ServiceInfo\CustomerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceInfo\MyDataService.cs" />

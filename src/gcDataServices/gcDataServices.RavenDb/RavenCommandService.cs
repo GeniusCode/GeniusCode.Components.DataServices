@@ -1,10 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using GeniusCode.Components.DataServices.Transactions;
 using Raven.Client;
 
 namespace GeniusCode.Components.DataServices
 {
+
+    public class RavenTransactionHarness<TScopeAggreagate> : TransactionHarnessBase<TScopeAggreagate> where TScopeAggreagate : class
+    {
+        public RavenTransactionHarness(IDIAbstractFactory<TScopeAggregate, IDataService<TScopeAggregate>> abstractAbstractFactory) : base(abstractAbstractFactory)
+        {
+        }
+    }
+
     public class RavenCommandService : ICommandService
     {
         #region Implementation of ICommandService

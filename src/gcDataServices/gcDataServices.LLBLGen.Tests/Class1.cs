@@ -42,7 +42,7 @@ namespace gcDataServices.LLBLGen.Tests
 
 
         [Test]
-        public void Should_Update()
+        public void Should_Update_In_Transaction()
         {
             var af = GetSimpleDIAbstractFactory();
             IDataAccessAdapter adapter;
