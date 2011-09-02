@@ -31,16 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="gcFactories">
-      <HintPath>..\packages\gcFactories.1.0.20\lib\net40\gcFactories.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="gcFactories, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\gcFactories.1.0.23\lib\net40\gcFactories.dll</HintPath>
     </Reference>
-    <Reference Include="gcFactoriesMEF">
-      <HintPath>..\packages\gcFactories.1.0.20\lib\net40\gcFactoriesMEF.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="gcFactoriesMEF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\gcFactories.1.0.23\lib\net40\gcFactoriesMEF.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,6 +53,7 @@
     <Compile Include="DataServices\IDataScope.cs" />
     <Compile Include="DataServices\IDataService.cs" />
     <Compile Include="DataServices\IQueryService.cs" />
+    <Compile Include="DataServices\Transactions\TransactionHarness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

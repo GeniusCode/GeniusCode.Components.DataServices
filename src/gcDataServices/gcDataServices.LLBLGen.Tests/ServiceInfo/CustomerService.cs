@@ -14,7 +14,7 @@ namespace gcDataServices.LLBLGen.Tests.ServiceInfo
      
         public OrderService GetOrderService()
         {
-            return Factory.GetInstance<OrderService>(this);
+            return Factory.GetInstance<OrderService>(Scope);
         }
 
 

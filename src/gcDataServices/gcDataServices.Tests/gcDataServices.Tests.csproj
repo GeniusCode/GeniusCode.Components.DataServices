@@ -32,10 +32,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="gcFactories, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\gcFactories.1.0.20\lib\net40\gcFactories.dll</HintPath>
+      <HintPath>..\packages\gcFactories.1.0.23\lib\net40\gcFactories.dll</HintPath>
     </Reference>
     <Reference Include="gcFactoriesMEF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\gcFactories.1.0.20\lib\net40\gcFactoriesMEF.dll</HintPath>
+      <HintPath>..\packages\gcFactories.1.0.23\lib\net40\gcFactoriesMEF.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
