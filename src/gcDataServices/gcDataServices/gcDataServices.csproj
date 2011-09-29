@@ -47,7 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataServices\DataScope.cs" />
     <Compile Include="DataServices\DataService.cs" />
     <Compile Include="DataServices\ICommandService.cs" />
     <Compile Include="DataServices\IDataScope.cs" />

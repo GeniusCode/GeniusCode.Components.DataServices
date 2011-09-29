@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using GeniusCode.Components.DataServices.Transactions;
 using GeniusCode.Components.Factories.DepedencyInjection;
 using SD.LLBLGen.Pro.LinqSupportClasses;
@@ -14,12 +10,40 @@ namespace GeniusCode.Components.DataServices
     {
         private readonly Func<IDataAccessAdapter> _createDataAccessAdapterFunc;
         private readonly Func<ILinqMetaData> _getMetaDataFunc;
+        private readonly FunctionMappingStore _mappingStore;
 
-        public LLBLGenTransactionHarness(IDIAbstractFactory<TScopeAggregate, IDataService<TScopeAggregate>> abstractFactory, Func<IDataAccessAdapter> createDataAccessAdapterFunc, Func<ILinqMetaData> getMetaDataFunc)
+
+        /// <summary>
+        /// Strongly typed method to create LLBLGenTransactionHarness
+        /// </summary>
+        /// <typeparam name="TMetadata">Type of LinqMetadata to use</typeparam>
+        /// <typeparam name="TMappingStore">Type of MappingStore to use</typeparam>
+        /// <param name="abstractFactory">instance of abstractfactory to use</param>
+        /// <param name="createDataAccessAdapterFunc">function to create an instance of dataaccessadater</param>
+        /// <returns></returns>
+        public static LLBLGenTransactionHarness<TScopeAggregate> Create<TMetadata, TMappingStore>(IDIAbstractFactory<TScopeAggregate, IDataService<TScopeAggregate>> abstractFactory, Func<IDataAccessAdapter> createDataAccessAdapterFunc)
+            where TMappingStore : FunctionMappingStore, new()
+            where TMetadata : ILinqMetaData, new()
+        {
+            var t = new LLBLGenTransactionHarness<TScopeAggregate>(abstractFactory, createDataAccessAdapterFunc, () => new TMetadata(),
+                                                                   new TMappingStore());
+
+            return t;
+        }
+
+        /// <summary>
+        /// Create an instance of an LLBLGenTransactionHarness
+        /// </summary>
+        /// <param name="abstractFactory"></param>
+        /// <param name="createDataAccessAdapterFunc"></param>
+        /// <param name="getMetaDataFunc"></param>
+        /// <param name="mappingStore"></param>
+        public LLBLGenTransactionHarness(IDIAbstractFactory<TScopeAggregate, IDataService<TScopeAggregate>> abstractFactory, Func<IDataAccessAdapter> createDataAccessAdapterFunc, Func<ILinqMetaData> getMetaDataFunc, FunctionMappingStore mappingStore)
             : base(abstractFactory)
         {
             _createDataAccessAdapterFunc = createDataAccessAdapterFunc;
             _getMetaDataFunc = getMetaDataFunc;
+            _mappingStore = mappingStore;
         }
 
         protected override void InitDataPointsOnScope(TScopeAggregate input)
@@ -27,11 +51,7 @@ namespace GeniusCode.Components.DataServices
             var adapter = _createDataAccessAdapterFunc();
             var md = _getMetaDataFunc();
 
-            var prop = md.GetType().GetProperty("AdapterToUse", BindingFlags.Instance | BindingFlags.Public);
-
-            prop.SetValue(md,adapter,null);
-
-            input.DataScope = new LLBLGenDataScope(adapter, md);
+            input.DataScope = new LLBLGenDataScope(adapter, md, _mappingStore);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace gcDataServices.Tests
     {
         public class Person
         {
-            public string Name { get; set; }
+            public string Name { internal get; set; }
         }
         private List<Person> _dataStore = new List<Person>();
 
@@ -40,8 +40,11 @@ namespace gcDataServices.Tests
             _dataStore.Add(new Person { Name = "Thomas" });
         }
 
-        public class MySession
-        { }
+        private class SimpleDataScope : IDataScope
+        {
+            public ICommandService CommandService { get; set; }
+            public IQueryService QueryService { get; set; }
+        }
 
         private DataService<Person, IScopeAggregate> GetService()
         {
@@ -52,8 +55,8 @@ namespace gcDataServices.Tests
 
             asDependant.TrySetDependency(new ScopeAggregate
             {
-                DataScope = new DataScope
-                {
+                DataScope = new SimpleDataScope
+                                {
                     CommandService = new ListCommandService(l => _dataStore = l, () => _dataStore),
                     QueryService = new ListQueryService(() => _dataStore)
                 },
@@ -82,7 +85,7 @@ namespace gcDataServices.Tests
             Assert.AreEqual(4, _dataStore.Count);
         }
 
-        internal class ListCommandService : ICommandService
+        private class ListCommandService : ICommandService
         {
             #region Implementation of ICommandService
 
@@ -110,7 +113,7 @@ namespace gcDataServices.Tests
             #endregion
         }
 
-        internal class ListQueryService : IQueryService
+        private class ListQueryService : IQueryService
         {
             private readonly Func<List<Person>> _cache;
 
