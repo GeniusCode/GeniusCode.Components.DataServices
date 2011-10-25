@@ -6,7 +6,7 @@ namespace gcDataServices.LLBLGen.Tests.ServiceInfo
 {
     public class OrderService : DataService<OrderEntity>
     {
-        public OrderService(RepositoryConnection repositoryConnection, Session sessionInfo) : base(repositoryConnection, sessionInfo)
+        public OrderService(RepositoryConnection repositoryConnection) : base(repositoryConnection)
         {
         }
 

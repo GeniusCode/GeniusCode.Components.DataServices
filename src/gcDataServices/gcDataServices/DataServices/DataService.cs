@@ -5,7 +5,7 @@ namespace GeniusCode.Components.DataServices
 {
     public class DataService<T> : DataService, IRepository<T> where T : class
     {
-        public DataService(RepositoryConnection repositoryConnection, object sessionInfo) : base(repositoryConnection, sessionInfo)
+        public DataService(RepositoryConnection repositoryConnection) : base(repositoryConnection)
         {
         }
 
@@ -28,27 +28,12 @@ namespace GeniusCode.Components.DataServices
 
     public class DataService
     {
-        public DataService(RepositoryConnection repositoryConnection, object sessionInfo)
+        public DataService(RepositoryConnection repositoryConnection)
         {
             RepositoryConnection = repositoryConnection;
-            SessionInfo = sessionInfo;
         }
 
         protected internal RepositoryConnection RepositoryConnection { get; private set; }
-        protected internal object SessionInfo { get; private set; }
-
-        internal void CloneFromPeer(DataService existingPeer)
-        {
-            RepositoryConnection = existingPeer.RepositoryConnection;
-            SessionInfo = existingPeer.SessionInfo;
-        }
-
-        protected void DoOnPeer<TPeer> (TPeer instance, Action<TPeer> toDo) 
-            where TPeer : DataService
-        {
-            instance.CloneFromPeer(this);
-            toDo(instance);
-        }
 
     }
 

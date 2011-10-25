@@ -8,7 +8,7 @@ namespace gcDataServices.LLBLGen.Tests.ServiceInfo
     {
         private readonly Session _sessionInfo;
 
-        public CustomerService(RepositoryConnection repositoryConnection, Session sessionInfo) : base(repositoryConnection, sessionInfo)
+        public CustomerService(RepositoryConnection repositoryConnection, Session sessionInfo) : base(repositoryConnection)
         {
             _sessionInfo = sessionInfo;
         }
@@ -21,7 +21,7 @@ namespace gcDataServices.LLBLGen.Tests.ServiceInfo
      
         public OrderService GetOrderService()
         {
-            return new OrderService(RepositoryConnection,_sessionInfo);
+            return new OrderService(RepositoryConnection);
         }
 
 
