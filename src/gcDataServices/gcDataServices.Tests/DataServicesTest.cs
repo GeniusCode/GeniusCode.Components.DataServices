@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
+using Autofac;
 using GeniusCode.Components.DataServices;
-using GeniusCode.Components.Factories.DepedencyInjection;
 using NUnit.Framework;
 
 namespace gcDataServices.Tests
@@ -10,16 +11,26 @@ namespace gcDataServices.Tests
     [TestFixture]
     public class DataServicesTest
     {
+        private readonly Session _session = new Session();
+        private List<Person> _dataStore = new List<Person>();
+        private IContainer _container;
+
+        public class Session
+        {
+            public IPrincipal User { get; set; }
+        }
+
         public class Person
         {
             public string Name { internal get; set; }
         }
-        private List<Person> _dataStore = new List<Person>();
+        
 
         [SetUp]
         public void Hi()
         {
             _dataStore.Clear();
+            _container = CreateContainer();
         }
 
         [Test]
@@ -27,12 +38,13 @@ namespace gcDataServices.Tests
         {
             var dataservice = GetService();
             BuildCache();
-            var count = dataservice.GetQuery().Count();
+            var count = dataservice.Query.Count();
             Assert.AreEqual(5, count);
         }
 
         private void BuildCache()
         {
+            _dataStore.Clear();
             _dataStore.Add(new Person { Name = "Joe" });
             _dataStore.Add(new Person { Name = "Bob" });
             _dataStore.Add(new Person { Name = "Frank" });
@@ -40,29 +52,25 @@ namespace gcDataServices.Tests
             _dataStore.Add(new Person { Name = "Thomas" });
         }
 
-        private class SimpleDataScope : IDataScope
+        private IContainer CreateContainer()
         {
-            public ICommandService CommandService { get; set; }
-            public IQueryService QueryService { get; set; }
+            var builder = new ContainerBuilder();
+            builder.Register(a => _session);
+            builder.RegisterType<ListCommandConnection>().As<RepositoryConnection>();
+            builder.RegisterType<DataService<Person, Session>>();
+
+            Action<List<Person>> dsSetter = items => _dataStore = items.ToList();
+            builder.RegisterInstance(dsSetter);
+
+            Func<List<Person>> dsGetter = () => _dataStore;
+            builder.RegisterInstance(dsGetter);
+
+            return builder.Build();
         }
 
-        private DataService<Person, IScopeAggregate> GetService()
-        {
-
-            var service = new DataService<Person, IScopeAggregate>();
-            var asDependant = service as IDependant<IScopeAggregate>;
-            Assert.IsNotNull(asDependant);
-
-            asDependant.TrySetDependency(new ScopeAggregate
-            {
-                DataScope = new SimpleDataScope
-                                {
-                    CommandService = new ListCommandService(l => _dataStore = l, () => _dataStore),
-                    QueryService = new ListQueryService(() => _dataStore)
-                },
-                Session = new object()
-            });
-
+        private DataService<Person, Session> GetService()
+        {           
+            var service = _container.Resolve<DataService<Person, Session>>();
             return service;
         }
 
@@ -71,7 +79,7 @@ namespace gcDataServices.Tests
         {
             var dataservice = GetService();
             var p = new Person { Name = "Ryan" };
-            ((IDataService)dataservice).ScopeAggregate.DataScope.CommandService.SaveObject(p);
+            dataservice.Save(p);
             Assert.AreEqual(1, _dataStore.Count);
         }
 
@@ -80,27 +88,28 @@ namespace gcDataServices.Tests
         {
             var dataservice = GetService();
             BuildCache();
-
-            ((IDataService)dataservice).ScopeAggregate.DataScope.CommandService.DeleteObject(_dataStore.First());
+            dataservice.Delete(_dataStore.First());
             Assert.AreEqual(4, _dataStore.Count);
         }
 
-        private class ListCommandService : ICommandService
+        public class ListCommandConnection : RepositoryConnection
         {
-            #region Implementation of ICommandService
-
 
             private readonly Action<List<Person>> _dsSetter;
             private readonly Func<List<Person>> _dsGetter;
 
 
-            public ListCommandService(Action<List<Person>> dsSetter, Func<List<Person>> dsGetter)
+            public ListCommandConnection(Action<List<Person>> dsSetter, Func<List<Person>> dsGetter)
             {
                 _dsSetter = dsSetter;
                 _dsGetter = dsGetter;
             }
 
-            public void ApplyPersistContainer(PersistContainer container)
+            protected override void CreateDataConnectionObjects()
+            {
+            }
+
+            protected override void PerformApplyPersistContainer(PersistContainer container)
             {
                 var ds = _dsGetter();
 
@@ -110,26 +119,12 @@ namespace gcDataServices.Tests
                 _dsSetter(ds);
             }
 
-            #endregion
+            protected override IQueryable<T> PerformGetQueryFor<T>()
+            {
+                return _dsGetter().OfType<T>().AsQueryable();
+            }
         }
 
-        private class ListQueryService : IQueryService
-        {
-            private readonly Func<List<Person>> _cache;
-
-            public ListQueryService(Func<List<Person>> cache)
-            {
-                _cache = cache;
-            }
-
-            #region Implementation of IQueryService
-
-            public IQueryable<T> GetQueryFor<T>() where T : class
-            {
-                return _cache().OfType<T>().AsQueryable();
-            }
-            #endregion
-        }
     }
 
 

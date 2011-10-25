@@ -1,37 +1,56 @@
+using System;
 using System.Linq;
-using GeniusCode.Components.Factories.DepedencyInjection;
 
 namespace GeniusCode.Components.DataServices
 {
-
-    public class DataService<TScopeAggregate> : PeerBase<IDataService<TScopeAggregate>,TScopeAggregate>,  IDataService<TScopeAggregate>
-        where TScopeAggregate : class, IScopeAggregate
+    public class DataService<T, TSessionInfo> : DataService<TSessionInfo>, IRepository<T> where T : class
     {
-
-        protected TScopeAggregate Scope
+        public DataService(RepositoryConnection repositoryConnection, TSessionInfo sessionInfo) : base(repositoryConnection, sessionInfo)
         {
-            get { return (this as IDependant<TScopeAggregate>).Dependency; }
-        }
-        
-        #region Implementation of IDataService
-
-        IScopeAggregate IDataService.ScopeAggregate
-        {
-            get { return Scope; }
         }
 
-        #endregion
-    }
-
-    public class DataService<T, TScopeAggregate> : DataService<TScopeAggregate>
-        where TScopeAggregate : class, IScopeAggregate
-        where T : class
-    {
-        public IQueryable<T> GetQuery()
+        public IQueryable<T> Query
         {
-            return Scope.DataScope.QueryService.GetQueryFor<T>();
+            get { return RepositoryConnection.GetQueryFor<T>();
+            }
+        }
+
+        public void Save(T item)
+        {
+            RepositoryConnection.SaveObject(item);
+        }
+
+        public void Delete(T item)
+        {
+            RepositoryConnection.DeleteObject(item);
         }
     }
 
+
+    public class DataService<TSessionInfo>
+    {
+        public DataService(RepositoryConnection repositoryConnection, TSessionInfo sessionInfo)
+        {
+            RepositoryConnection = repositoryConnection;
+            SessionInfo = sessionInfo;
+        }
+
+        protected internal RepositoryConnection RepositoryConnection { get; private set; }
+        protected internal TSessionInfo SessionInfo { get; private set; }
+
+        internal void CloneFromPeer(DataService<TSessionInfo> existingPeer)
+        {
+            RepositoryConnection = existingPeer.RepositoryConnection;
+            SessionInfo = existingPeer.SessionInfo;
+        }
+
+        protected void DoOnPeer<TPeer> (TPeer instance, Action<TPeer> toDo) 
+            where TPeer : DataService<TSessionInfo>
+        {
+            instance.CloneFromPeer(this);
+            toDo(instance);
+        }
+
+    }
 
 }

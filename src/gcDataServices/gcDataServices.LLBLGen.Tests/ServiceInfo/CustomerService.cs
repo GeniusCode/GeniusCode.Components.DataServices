@@ -4,25 +4,28 @@ using Northwind.DAL.EntityClasses;
 
 namespace gcDataServices.LLBLGen.Tests.ServiceInfo
 {
-
-    public class CustomerService : MyDataService<CustomerEntity>
+    public class CustomerService : DataService<CustomerEntity,Session>
     {
+        public CustomerService(RepositoryConnection repositoryConnection, Session sessionInfo) : base(repositoryConnection, sessionInfo)
+        {
+        }
+
         public int GetCustomerCount()
         {
-            return GetQuery().Count();
+            return Query.Count();
         }  
      
         public OrderService GetOrderService()
         {
-            return Factory.GetInstance<OrderService>(Scope);
+            return new OrderService(RepositoryConnection, SessionInfo);
         }
 
 
         public void SetNameToBrodie(string custId)
         {
-            var entity = GetQuery().Single(a => a.CustomerId == custId);
+            var entity = Query.Single(a => a.CustomerId == custId);
             entity.CompanyName = "Brody";
-            Scope.DataScope.CommandService.SaveObject(entity);
+            Save(entity);
         }
 
 
