@@ -8,4 +8,5 @@ namespace GeniusCode.Components.DataServices
         void Save(T item);
         void Delete(T item);
     }
+
 }

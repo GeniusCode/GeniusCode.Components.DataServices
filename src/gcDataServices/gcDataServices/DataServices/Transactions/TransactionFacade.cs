@@ -4,19 +4,20 @@ using System.Transactions;
 
 namespace GeniusCode.Components.DataServices.Transactions
 {
-    public interface ITransactionFacade<TSessionInfo>
+    public interface ITransactionFacade
     {
         void PerformOnDataService<T>(T instance, Action<T> toDo, bool close)
-            where T : DataService<TSessionInfo>;
+            where T : DataService;
+
 
     }
 
-    public class TransactionFacade<TSessionInfo> : ITransactionFacade<TSessionInfo>
+    public class TransactionFacade : ITransactionFacade
     {
 
 
         public void PerformOnDataService<T>(T instance, Action<T> toDo, bool close)
-            where T : DataService<TSessionInfo>
+            where T : DataService
         {
             Perform(() => toDo(instance) , close, instance.RepositoryConnection);
         }

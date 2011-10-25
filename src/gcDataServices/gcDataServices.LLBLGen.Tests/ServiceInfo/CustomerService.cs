@@ -4,11 +4,15 @@ using Northwind.DAL.EntityClasses;
 
 namespace gcDataServices.LLBLGen.Tests.ServiceInfo
 {
-    public class CustomerService : DataService<CustomerEntity,Session>
+    public class CustomerService : DataService<CustomerEntity>
     {
+        private readonly Session _sessionInfo;
+
         public CustomerService(RepositoryConnection repositoryConnection, Session sessionInfo) : base(repositoryConnection, sessionInfo)
         {
+            _sessionInfo = sessionInfo;
         }
+
 
         public int GetCustomerCount()
         {
@@ -17,7 +21,7 @@ namespace gcDataServices.LLBLGen.Tests.ServiceInfo
      
         public OrderService GetOrderService()
         {
-            return new OrderService(RepositoryConnection, SessionInfo);
+            return new OrderService(RepositoryConnection,_sessionInfo);
         }
 
 

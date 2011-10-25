@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using Autofac;
+using Autofac.Core;
+using Autofac.Core.Activators.Reflection;
 using GeniusCode.Components.DataServices;
 using NUnit.Framework;
 
@@ -55,10 +57,9 @@ namespace gcDataServices.Tests
         private IContainer CreateContainer()
         {
             var builder = new ContainerBuilder();
-            builder.Register(a => _session);
             builder.RegisterType<ListCommandConnection>().As<RepositoryConnection>();
-            builder.RegisterType<DataService<Person, Session>>();
-
+            builder.RegisterType<DataService<Person>>();
+            
             Action<List<Person>> dsSetter = items => _dataStore = items.ToList();
             builder.RegisterInstance(dsSetter);
 
@@ -68,9 +69,10 @@ namespace gcDataServices.Tests
             return builder.Build();
         }
 
-        private DataService<Person, Session> GetService()
-        {           
-            var service = _container.Resolve<DataService<Person, Session>>();
+        private DataService<Person> GetService()
+        {
+            var q = new NamedParameter("sessionInfo", new object());
+            var service = _container.Resolve<DataService<Person>>(q);
             return service;
         }
 

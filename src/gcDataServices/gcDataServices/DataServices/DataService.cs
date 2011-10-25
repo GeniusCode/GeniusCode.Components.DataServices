@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace GeniusCode.Components.DataServices
 {
-    public class DataService<T, TSessionInfo> : DataService<TSessionInfo>, IRepository<T> where T : class
+    public class DataService<T> : DataService, IRepository<T> where T : class
     {
-        public DataService(RepositoryConnection repositoryConnection, TSessionInfo sessionInfo) : base(repositoryConnection, sessionInfo)
+        public DataService(RepositoryConnection repositoryConnection, object sessionInfo) : base(repositoryConnection, sessionInfo)
         {
         }
 
@@ -26,26 +26,25 @@ namespace GeniusCode.Components.DataServices
         }
     }
 
-
-    public class DataService<TSessionInfo>
+    public class DataService
     {
-        public DataService(RepositoryConnection repositoryConnection, TSessionInfo sessionInfo)
+        public DataService(RepositoryConnection repositoryConnection, object sessionInfo)
         {
             RepositoryConnection = repositoryConnection;
             SessionInfo = sessionInfo;
         }
 
         protected internal RepositoryConnection RepositoryConnection { get; private set; }
-        protected internal TSessionInfo SessionInfo { get; private set; }
+        protected internal object SessionInfo { get; private set; }
 
-        internal void CloneFromPeer(DataService<TSessionInfo> existingPeer)
+        internal void CloneFromPeer(DataService existingPeer)
         {
             RepositoryConnection = existingPeer.RepositoryConnection;
             SessionInfo = existingPeer.SessionInfo;
         }
 
         protected void DoOnPeer<TPeer> (TPeer instance, Action<TPeer> toDo) 
-            where TPeer : DataService<TSessionInfo>
+            where TPeer : DataService
         {
             instance.CloneFromPeer(this);
             toDo(instance);

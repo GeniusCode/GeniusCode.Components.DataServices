@@ -17,7 +17,7 @@ namespace gcDataServices.LLBLGen.Tests
     [TestFixture]
     public class LLBLGenTransactionFacadeTests
     {
-        private readonly TransactionFacade<Session> _facade = new TransactionFacade<Session>();
+        private readonly TransactionFacade _facade = new TransactionFacade();
         private IContainer _container;
         
         [SetUp]
