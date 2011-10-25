@@ -31,12 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="gcFactories, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\gcFactories.1.0.23\lib\net40\gcFactories.dll</HintPath>
-    </Reference>
-    <Reference Include="gcFactoriesMEF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\gcFactories.1.0.23\lib\net40\gcFactoriesMEF.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Transactions" />
@@ -48,15 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataServices\DataService.cs" />
-    <Compile Include="DataServices\ICommandService.cs" />
-    <Compile Include="DataServices\IDataScope.cs" />
-    <Compile Include="DataServices\IDataService.cs" />
-    <Compile Include="DataServices\IQueryService.cs" />
-    <Compile Include="DataServices\Transactions\TransactionHarness.cs" />
+    <Compile Include="DataServices\IRepository.cs" />
+    <Compile Include="DataServices\RepositoryConnection.cs" />
+    <Compile Include="DataServices\PersistContainer.cs" />
+    <Compile Include="DataServices\Transactions\TransactionFacade.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

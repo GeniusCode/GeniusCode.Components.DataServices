@@ -49,10 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LLBLGenCommandService.cs" />
-    <Compile Include="LLBLGenDataScope.cs" />
-    <Compile Include="LLBLGenQueryService.cs" />
-    <Compile Include="LLBLGenTransactionHarness.cs" />
+    <Compile Include="LlblGenRepositoryConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
