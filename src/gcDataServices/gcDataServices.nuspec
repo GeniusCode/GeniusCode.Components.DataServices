@@ -11,9 +11,6 @@
     <description>Lightweight classes that help to encapsulate data access calls</description>
     <summary>Lightweight classes that help to encapsulate data access calls</summary>
     <tags>ioc di data </tags>
-    <dependencies>
-      <dependency id="gcFactories" version="1.0.20" />
-    </dependencies>
   </metadata>
   <files>
     <file src="src\gcDataServices\gcDataServices\bin\Release\gcDataServices.dll" target="lib\net40" />
