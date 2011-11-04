@@ -44,7 +44,7 @@ namespace gcDataServices.LLBLGen.Tests
             var service = _container.Resolve<CustomerService>();
            
             //THIS SHOULD HAPPEN IN A TRANSACTION
-            _facade.PerformOnDataService(service, a =>
+            _facade.On(service).Invoke(a =>
                                                     {
                                                         a.SetNameToBrodie("CHOPS");
                                                         Assert.AreEqual("Brody", a.Query.Single(b => b.CustomerId == "CHOPS").CompanyName);
