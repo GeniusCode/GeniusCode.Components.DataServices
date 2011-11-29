@@ -5,7 +5,13 @@ namespace GeniusCode.Components.DataServices
 {
     public class DataService<T> : DataService, IRepository<T> where T : class
     {
-        public DataService(RepositoryConnection repositoryConnection) : base(repositoryConnection)
+
+        protected new internal LinqRepositoryConnection RepositoryConnection
+        {
+            get { return base.RepositoryConnection as LinqRepositoryConnection; }
+        }
+
+        public DataService(LinqRepositoryConnection repositoryConnection) : base(repositoryConnection)
         {
         }
 

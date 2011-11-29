@@ -57,7 +57,7 @@ namespace gcDataServices.Tests
         private IContainer CreateContainer()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterType<ListCommandConnection>().As<RepositoryConnection>();
+            builder.RegisterType<ListCommandConnection>().As<LinqRepositoryConnection>();
             builder.RegisterType<DataService<Person>>();
             
             Action<List<Person>> dsSetter = items => _dataStore = items.ToList();
@@ -94,7 +94,7 @@ namespace gcDataServices.Tests
             Assert.AreEqual(4, _dataStore.Count);
         }
 
-        public class ListCommandConnection : RepositoryConnection
+        public class ListCommandConnection : LinqRepositoryConnection
         {
 
             private readonly Action<List<Person>> _dsSetter;

@@ -6,7 +6,7 @@ using SD.LLBLGen.Pro.ORMSupportClasses;
 
 namespace GeniusCode.Components.DataServices
 {
-    public class LLBLGenRepositoryConnection : RepositoryConnection
+    public class LLBLGenRepositoryConnection : LinqRepositoryConnection
     {
         #region Implementation of IQueryService
 

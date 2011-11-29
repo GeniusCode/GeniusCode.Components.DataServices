@@ -23,16 +23,16 @@ namespace gcDataServices.LLBLGen.Tests
         [SetUp]
         public void Setup()
         {
+
             var builder = new ContainerBuilder();
             Func<IDataAccessAdapter> adapterFunc = ()=> new DataAccessAdapter();
             builder.RegisterInstance(adapterFunc);
             builder.RegisterType<UnitOfWork2>();
             builder.RegisterType<LinqMetaData>().As<ILinqMetaData>();
             builder.RegisterType<MyMappingStore>().As<FunctionMappingStore>();
-            builder.RegisterType<LLBLGenRepositoryConnection>().As<RepositoryConnection>();
+            builder.RegisterType<LLBLGenRepositoryConnection>().As<LinqRepositoryConnection>();
             builder.RegisterType<CustomerService>();
             builder.Register(c => new Session());
-
             _container = builder.Build();
         }
             
@@ -61,7 +61,7 @@ namespace gcDataServices.LLBLGen.Tests
         public void Should_call_function()
         {
             List<int> items = null;
-            var connection =_container.Resolve<RepositoryConnection>();
+            var connection =_container.Resolve<LinqRepositoryConnection>();
             _facade.Perform(()=>
                              {
                                  items = (from t in connection.GetQueryFor<CustomerEntity>()

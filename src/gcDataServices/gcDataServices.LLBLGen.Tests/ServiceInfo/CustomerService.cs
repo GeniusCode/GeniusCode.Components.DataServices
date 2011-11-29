@@ -8,7 +8,7 @@ namespace gcDataServices.LLBLGen.Tests.ServiceInfo
     {
         private readonly Session _sessionInfo;
 
-        public CustomerService(RepositoryConnection repositoryConnection, Session sessionInfo) : base(repositoryConnection)
+        public CustomerService(LinqRepositoryConnection repositoryConnection, Session sessionInfo) : base(repositoryConnection)
         {
             _sessionInfo = sessionInfo;
         }

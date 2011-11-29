@@ -4,7 +4,7 @@ using Raven.Client;
 
 namespace GeniusCode.Components.DataServices
 {
-    public class RavenRepositoryConnection : RepositoryConnection
+    public class RavenRepositoryConnection : LinqRepositoryConnection
     {
         private IDocumentSession _session;
         private readonly Func<IDocumentSession> _sessionFunc;

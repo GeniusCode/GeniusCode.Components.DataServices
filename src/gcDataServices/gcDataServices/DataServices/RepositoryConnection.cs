@@ -2,6 +2,17 @@ using System.Linq;
 
 namespace GeniusCode.Components.DataServices
 {
+    public abstract class LinqRepositoryConnection : RepositoryConnection
+    {
+        protected abstract IQueryable<T> PerformGetQueryFor<T>() where T : class;
+
+        public IQueryable<T> GetQueryFor<T>() where T : class
+        {
+            return PerformGetQueryFor<T>();
+        }
+
+    }
+
     public abstract class RepositoryConnection
     {
         public void ApplyPersistContainer(PersistContainer container)
@@ -9,10 +20,7 @@ namespace GeniusCode.Components.DataServices
             PerformApplyPersistContainer(container);
         }
 
-        public IQueryable<T> GetQueryFor<T>() where T : class
-        {
-            return PerformGetQueryFor<T>();
-        }
+
 
         public void SaveObject(object toSave)
         {
@@ -30,7 +38,7 @@ namespace GeniusCode.Components.DataServices
 
         protected internal abstract void CreateDataConnectionObjects();
         protected abstract void PerformApplyPersistContainer(PersistContainer container);
-        protected abstract IQueryable<T> PerformGetQueryFor<T>() where T : class;
+        
 
 
 
