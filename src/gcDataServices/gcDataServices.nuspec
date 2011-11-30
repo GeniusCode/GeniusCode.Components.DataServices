@@ -4,7 +4,7 @@
     <id>gcDataServices</id>
     <version>1.0</version>
     <title>Simple Data Services Library</title>
-    <authors>JeremiahRedekop, Ryan D Hatch</authors>
+    <authors>GeniusCode</authors>
     <owners>GeniusCode,LLC</owners>
     <projectUrl>https://github.com/GeniusCode/GeniusCode.Components.DataServices</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
