@@ -58,7 +58,7 @@ namespace gcDataServices.Tests
         {
             var builder = new ContainerBuilder();
             builder.RegisterType<ListCommandConnection>().As<LinqRepositoryConnection>();
-            builder.RegisterType<DataService<Person>>();
+            builder.RegisterType<FullDataService<Person>>();
             
             Action<List<Person>> dsSetter = items => _dataStore = items.ToList();
             builder.RegisterInstance(dsSetter);
@@ -69,10 +69,10 @@ namespace gcDataServices.Tests
             return builder.Build();
         }
 
-        private DataService<Person> GetService()
+        private FullDataService<Person> GetService()
         {
             var q = new NamedParameter("sessionInfo", new object());
-            var service = _container.Resolve<DataService<Person>>(q);
+            var service = _container.Resolve<FullDataService<Person>>(q);
             return service;
         }
 

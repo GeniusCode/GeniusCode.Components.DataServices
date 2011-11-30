@@ -85,12 +85,10 @@ namespace GeniusCode.Components.DataServices
         /// <param name="mappingStore">mappingstore object</param>
         private static void InitLinqMetadata(IDataAccessAdapter adapter, ILinqMetaData metaData, FunctionMappingStore mappingStore)
         {
-            var mdAsDynamic = metaData as dynamic;
-
-            mdAsDynamic.AdapterToUse = adapter;
+            ReflectionHelper.SetPropertyValue("AdapterToUse", metaData, adapter);
 
             if (mappingStore != null)
-                mdAsDynamic.CustomFunctionMappings = mappingStore;
+                ReflectionHelper.SetPropertyValue("CustomFunctionMappings", metaData, mappingStore);
         }
 
     }

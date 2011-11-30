@@ -4,7 +4,7 @@ using Northwind.DAL.EntityClasses;
 
 namespace gcDataServices.LLBLGen.Tests.ServiceInfo
 {
-    public class CustomerService : DataService<CustomerEntity>
+    public class CustomerService : FullDataService<CustomerEntity>
     {
         private readonly Session _sessionInfo;
 

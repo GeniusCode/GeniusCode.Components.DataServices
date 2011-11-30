@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GeniusCode.Components</RootNamespace>
     <AssemblyName>gcDataServices</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataServices\DataService.cs" />
+    <Compile Include="DataServices\FullDataService.cs" />
     <Compile Include="DataServices\IRepository.cs" />
     <Compile Include="DataServices\RepositoryConnection.cs" />
     <Compile Include="DataServices\PersistContainer.cs" />

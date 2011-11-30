@@ -4,7 +4,7 @@ using Northwind.DAL.EntityClasses;
 
 namespace gcDataServices.LLBLGen.Tests.ServiceInfo
 {
-    public class OrderService : DataService<OrderEntity>
+    public class OrderService : FullDataService<OrderEntity>
     {
         public OrderService(LinqRepositoryConnection repositoryConnection) : base(repositoryConnection)
         {
