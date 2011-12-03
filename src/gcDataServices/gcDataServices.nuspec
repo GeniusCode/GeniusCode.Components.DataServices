@@ -13,6 +13,7 @@
     <tags>ioc di data </tags>
   </metadata>
   <files>
+    <file src="src\gcDataServices\gcDataServices\bin\Release\gcDataServices.dll" target="lib\net35" />
     <file src="src\gcDataServices\gcDataServices\bin\Release\gcDataServices.dll" target="lib\net40" />
   </files>
 </package>
